@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="message_activity_done_inherit" inherit_id="mail.message_activity_done">
+        <xpath expr="//t[@t-if='display_assignee']" position="replace">
+            <t t-set="has_user" t-value="activity.user_id and display_assignee"/>
+            <t t-set="has_team" t-value="display_team"/>
+            <t t-if="has_user or has_team">
+                <span> (</span>
+                <t t-if="has_user">
+                    originally assigned to <span t-field="activity.user_id.name"/>
+                    <t t-if="has_team"> and </t>
+                </t>
+                <t t-if="has_team">
+                    originally assigned to Team <span t-field="activity.team_id.name"/>
+                </t>
+                <span>)</span>
+            </t>
+        </xpath>
+    </template>
+</odoo>

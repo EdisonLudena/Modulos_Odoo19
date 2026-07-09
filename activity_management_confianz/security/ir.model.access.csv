@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_team_teams_user,access_team_teams_user,model_team_teams,base.group_user,1,0,0,0
+access_team_teams_manager,access_team_teams_manager,model_team_teams,activity_management_confianz.manage_create_teams,1,1,1,1

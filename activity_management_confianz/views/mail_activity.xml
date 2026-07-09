@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+      <record id="view_mail_activity_form_popup_inherit_team" model="ir.ui.view">
+        <field name="name">mail.activity.form.popup.inherit.team</field>
+        <field name="model">mail.activity</field>
+        <field name="inherit_id" ref="mail.mail_activity_view_form_popup"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='date_deadline']" position="after">
+                <field name="team_id"/>
+                <field name="allowed_user_ids" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="domain">team_id and [('id', 'in', allowed_user_ids)] or []</attribute>
+                <attribute name="readonly">team_id</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="view_mail_activity_tree_group_overview" model="ir.ui.view">
+        <field name="name">mail.activity.tree.group.overview</field>
+        <field name="model">mail.activity</field>
+        <field name="priority">999</field>
+        <field name="arch" type="xml">
+            <list string="Activities" create="0" edit="0" delete="0">
+                <field name="summary"/>
+                <field name="activity_type_id" />
+                <field name="user_id" widget="many2one_avatar_user" string="Assigned to"/>
+                <field name="team_id"/>
+                <field name="create_uid" string="Created By"/>
+                <field name="res_name" string="Linked to"/>
+                <field name="date_deadline" string="Due Date" widget="remaining_days"/>
+                <widget name="mail_activity_list_reschedule_dropdown"/>
+                <button name="action_done" type="object" string="Done" icon="fa-check" invisible="active == False"/>
+                <button name="unlink" type="object" string="Cancel" icon="fa-times" class="text-danger" invisible="active == False"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mail_activity_form_group_overview" model="ir.ui.view">
+        <field name="name">mail.activity.form.group.overview</field>
+        <field name="model">mail.activity</field>
+        <field name="priority">999</field>
+        <field name="arch" type="xml">
+            <form string="Activity" create="0" edit="0" delete="0">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_document"
+                                type="object" class="oe_link" icon="fa-file-text-o"
+                                invisible="not res_model or res_id == 0">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Open Document</span>
+                                </div>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="activity_type_id" options="{'no_open': True}"/>
+                            <field name="summary"/>
+                            <field name="date_deadline"/>
+                        </group>
+                        <group>
+                            <field name="user_id" string="Assigned to" options="{'no_open': True}" readonly="team_id" force_save="1"/>
+                            <field name="team_id" options="{'no_open': True}"/>
+                            <field name="res_name" string="Linked to"/>
+                        </group>
+                    </group>
+                    <field name="note" placeholder="Log a note..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mail_activity_group_overview" model="ir.actions.act_window">
+        <field name="name">Activities</field>
+        <field name="res_model">mail.activity</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'group_activities_only': True, 'group_activity_target_model': 'mail.activity'}</field>
+        <field name="view_ids" eval="[(5, 0, 0), 
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_mail_activity_tree_group_overview')}), 
+            (0, 0, {'view_mode': 'form', 'view_id': ref('view_mail_activity_form_group_overview')})]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No activities found for you or your team.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="Activity_menu_root"
+        name="Activity Management"
+        web_icon="activity_management_confianz,static/description/icon.png"
+        sequence="30">
+
+        <menuitem id="menu_activity_assignment_activities"
+                name="Activities"
+                action="action_mail_activity_group_overview"
+                sequence="1"/>
+
+        <menuitem id="configuration_menu"
+                name="Configuration"
+                sequence="2"/>
+
+    </menuitem>
+
+</odoo>

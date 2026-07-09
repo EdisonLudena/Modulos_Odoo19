@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+<t t-inherit="mail.Activity" t-inherit-mode="extension">
+    <xpath expr="//div[hasclass('o-mail-Activity-avatarContainer')]" position="replace">
+         <div class="o-mail-Activity-avatarContainer position-relative d-flex align-items-center justify-content-center" t-att-role="(props.activity.user_id or props.activity.team_id) ? 'button' : 'img'" t-on-click="onClickAvatar">
+            <img t-if="props.activity.team_id" class="w-100 h-100 rounded object-fit-cover" t-att-src="props.activity.team_id.image_url" t-att-title="props.activity.team_id.name"/>
+            <img t-elif="props.activity.user_id?.partner_id" class="w-100 h-100 rounded object-fit-cover" t-att-src="props.activity.user_id.partner_id.avatarUrl" />
+            <div
+                class="o-mail-Activity-iconContainer rounded-circle d-flex align-items-center justify-content-center border border-2 border-white"
+                t-att-class="{
+                    'position-absolute top-100 start-100 translate-middle mt-n1 ms-n1 w-50 h-50': props.activity.user_id or props.activity.team_id,
+                    'text-bg-success': props.activity.state === 'planned',
+                    'text-bg-warning': props.activity.state === 'today',
+                    'text-bg-danger': props.activity.state === 'overdue',
+                    }"
+                t-attf-style="{{(!props.activity.user_id and !props.activity.team_id) ? 'height:80%; width:80%;' : ''}}"
+            >
+                <i class="fa small" t-attf-class="{{ props.activity.icon }} {{ (props.activity.user_id or props.activity.team_id) ? 'small' : 'fs-2'}}"/>
+            </div>
+        </div>
+    </xpath>
+    <xpath expr="//span[hasclass('o-mail-Activity-user')]" position="after">
+        <span class="o-mail-Activity-team px-1" t-if="!props.activity.user_id and props.activity.team_id">
+            for <t t-esc="props.activity.team_id.name"/>
+        </span>
+        <span class="o-mail-Activity-team px-1 text-muted" t-if="props.activity.user_id and props.activity.team_id">
+            (Team: <t t-esc="props.activity.team_id.name"/>)
+        </span>
+    </xpath>
+    <xpath expr="//tr[@t-if='props.activity.user_id']" position="after">
+        <tr t-if="props.activity.team_id">
+            <td class="text-end fw-bolder">Team</td>
+            <td><t t-esc="props.activity.team_id.name"/></td>
+        </tr>
+    </xpath>
+</t>
+
+</templates>

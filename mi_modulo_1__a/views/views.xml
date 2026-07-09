@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_mail_activity_tree_inherit_priority" model="ir.ui.view">
+            <field name="name">mail.activity.tree.inherit.priority</field>
+            <field name="model">mail.activity</field>
+            <field name="inherit_id" ref="activity_management_confianz.view_mail_activity_tree_group_overview"/>
+            <field name="arch" type="xml">
+                
+                <xpath expr="//field[@name='summary']" position="before">
+                    <field name="priority" widget="badge" decoration-danger="priority == '2'" decoration-warning="priority == '1'" decoration-info="priority == '0'"/>
+                </xpath>
+
+                <xpath expr="//field[@name='create_uid']" position="attributes">
+                    <attribute name="column_invisible">1</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_mail_activity_form_popup_inherit_priority" model="ir.ui.view">
+            <field name="name">mail.activity.form.popup.inherit.priority</field>
+            <field name="model">mail.activity</field>
+            <field name="inherit_id" ref="mail.mail_activity_view_form_popup"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='summary']" position="after">
+                    <field name="priority" widget="priority"/>
+                </xpath>
+
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="requires_approval" readonly="1" string="Requiere Aprobación"/>
+                </xpath>
+
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="decoration-danger">requires_approval == True</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_mail_activity_form_full_inherit_priority" model="ir.ui.view">
+            <field name="name">mail.activity.form.full.inherit.priority</field>
+            <field name="model">mail.activity</field>
+            <field name="inherit_id" ref="mail.mail_activity_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='activity_type_id']" position="after">
+                    <field name="priority" widget="priority"/>
+                </xpath>
+
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="requires_approval" readonly="1" string="Requiere Aprobación"/>
+                </xpath>
+
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="decoration-danger">requires_approval == True</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_mail_activity_form_group_overview_inherit_priority" model="ir.ui.view">
+            <field name="name">mail.activity.form.group.overview.inherit.priority</field>
+            <field name="model">mail.activity</field>
+            <field name="inherit_id" ref="activity_management_confianz.view_mail_activity_form_group_overview"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='activity_type_id']" position="after">
+                    <field name="priority" widget="priority"/>
+                </xpath>
+
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="requires_approval" readonly="1" string="Requiere Aprobación"/>
+                </xpath>
+
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="decoration-danger">requires_approval == True</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>
