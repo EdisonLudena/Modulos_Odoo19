@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_team_teams_form_inherit_objectives" model="ir.ui.view">
+            <field name="name">team.teams.form.inherit.objectives</field>
+            <field name="model">team.teams</field>
+            <field name="inherit_id" ref="activity_management_confianz.view_team_teams_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//page[@name='notes']" position="before">
+                    <page string="Objetivos" name="objectives">
+                        <field name="objective_ids">
+                            <list editable="bottom">
+                                <field name="name"/>
+                                <field name="deadline"/>
+                                <field name="is_done" widget="boolean_toggle"/>
+                            </list>
+                        </field>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

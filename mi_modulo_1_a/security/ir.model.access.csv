@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_team_objective,team.objective,model_team_objective,base.group_user,1,1,1,1
+access_mail_activity_checklist,mail.activity.checklist,model_mail_activity_checklist,base.group_user,1,1,1,1
