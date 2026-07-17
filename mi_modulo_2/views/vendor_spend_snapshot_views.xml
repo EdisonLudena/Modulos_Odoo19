@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_vendor_spend_snapshot_tree" model="ir.ui.view">
+            <field name="name">vendor.spend.snapshot.tree</field>
+            <field name="model">vendor.spend.snapshot</field>
+            <field name="arch" type="xml">
+                <list string="Historial de Gasto por Proveedor" create="false" edit="false">
+                    <field name="snapshot_datetime"/>
+                    <field name="vendor_id"/>
+                    <field name="amount" decoration-bf="1"/>
+                    <field name="percentage" widget="percentage"/>
+                    <field name="risk_level" widget="badge"
+                           decoration-danger="risk_level == 'high'"
+                           decoration-warning="risk_level == 'medium'"
+                           decoration-success="risk_level == 'low'"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_vendor_spend_snapshot_graph" model="ir.ui.view">
+            <field name="name">vendor.spend.snapshot.graph</field>
+            <field name="model">vendor.spend.snapshot</field>
+            <field name="arch" type="xml">
+                <graph string="Cantidad Total de Consultas" type="bar">
+                </graph>
+            </field>
+        </record>
+
+        <record id="action_vendor_spend_snapshot" model="ir.actions.act_window">
+            <field name="name">Historial de Gasto por Proveedor</field>
+            <field name="res_model">vendor.spend.snapshot</field>
+            <field name="view_mode">list,graph</field>
+        </record>
+
+        <menuitem id="menu_vendor_spend_snapshot"
+                  name="Historial Gasto Proveedores"
+                  action="action_vendor_spend_snapshot"
+                  sequence="100"/>
+
+    </data>
+</odoo>

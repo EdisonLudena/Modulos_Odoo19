@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_finance_report_audit,finance.report.audit,model_finance_report_audit,base.group_user,1,1,1,1
+access_vendor_spend_snapshot,vendor.spend.snapshot,model_vendor_spend_snapshot,base.group_user,1,0,0,0
