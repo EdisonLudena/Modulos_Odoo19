@@ -53,3 +53,10 @@ python odoo/odoo-bin --config=odoo-dev.conf -d odoo19_dev -u mi_modulo_2 --stop-
 python3 odoo/odoo-bin -c odoo-dev.conf -d nombre_de_tu_base_de_datos -u mi_modulo_1
 python3 odoo/odoo-bin -c odoo-dev.conf -d nombre_base_de_datos -u mi_modulo_2
 python3 odoo/odoo-bin -c odoo-dev.conf -d modulo2 -u mi_modulo_2
+
+
+# ==========================================
+# 5. LINKS PARA DESCARGAR LOS MODULOS
+# ==========================================
+
+SEMANA 3: https://apps.odoo.com/apps/modules/19.0/hotel_management_odoo
