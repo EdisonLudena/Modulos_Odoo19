@@ -61,3 +61,4 @@ python3 odoo/odoo-bin -c odoo-dev.conf -d modulo2 -u mi_modulo_2
 
 SEMANA 3: https://apps.odoo.com/apps/modules/19.0/hotel_management_odoo
 SEMANA 4: https://apps.odoo.com/apps/modules/19.0/gym_mgmt_system
+SEMANA 5: https://apps.odoo.com/apps/modules/19.0/base_hospital_management
