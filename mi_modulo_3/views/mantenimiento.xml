@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="action_maintenance_specialty" model="ir.actions.act_window">
+        <field name="name">Especialidades Técnicas</field>
+        <field name="res_model">maintenance.specialty</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_maintenance_specialty" 
+              name="Especialidades" 
+              parent="hotel_management_odoo.maintenance_menu" 
+              sequence="40" 
+              action="action_maintenance_specialty"/>
+
+    <record id="maintenance_team_view_form_inherit" model="ir.ui.view">
+        <field name="name">maintenance.team.view.form.inherit</field>
+        <field name="model">maintenance.team</field>
+        <field name="inherit_id" ref="hotel_management_odoo.maintenance_team_view_form"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="action_set_in_service" string="Desplegar a Servicio" type="object" class="oe_highlight" invisible="state == 'in_service'"/>
+                    <button name="action_set_busy" string="Marcar Saturado" type="object" invisible="state in ('draft', 'busy')"/>
+                    <button name="action_set_available" string="Liberar Equipo" type="object" invisible="state == 'available'"/>
+                    
+                    <field name="state" widget="statusbar" statusbar_visible="available,in_service,busy"/>
+                </header>
+            </xpath>
+
+            <xpath expr="//group" position="after">
+                <group string="Información de Operatividad">
+                    <group>
+                        <field name="specialty_ids" widget="many2many_tags" placeholder="Ej. Electricidad, Plomería..."/>
+                    </group>
+                    <group>
+                        <field name="member_count" string="Miembros Activos"/>
+                    </group>
+                </group>
+            </xpath>
+
+            <xpath expr="//field[@name='member_ids']" position="attributes">
+                <attribute name="widget">many2many_tags</attribute>
+                <attribute name="domain">[]</attribute>
+                <attribute name="placeholder">Selecciona los miembros del equipo...</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="maintenance_team_view_tree_inherit" model="ir.ui.view">
+        <field name="name">maintenance.team.view.tree.inherit</field>
+        <field name="model">maintenance.team</field>
+        <field name="inherit_id" ref="hotel_management_odoo.maintenance_team_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="member_count" string="Miembros"/>
+                <field name="state" widget="badge" 
+                       decoration-success="state == 'available'" 
+                       decoration-warning="state == 'in_service'" 
+                       decoration-danger="state == 'busy'"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

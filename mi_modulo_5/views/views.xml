@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hospital_pharmacy_view_form_inherit_cron" model="ir.ui.view">
+        <field name="name">hospital.pharmacy.view.form.inherit.cron</field>
+        <field name="model">hospital.pharmacy</field>
+        <field name="inherit_id" ref="base_hospital_management.hospital_pharmacy_view_form"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-danger" role="alert" invisible="is_low_stock == False" style="margin-bottom: 0px;">
+                    <strong><i class="fa fa-exclamation-triangle"/> ¡Atención!</strong> El monitoreo automático del servidor detectó medicamentos por debajo del umbral permitido en esta farmacia.
+                </div>
+            </xpath>
+
+            <xpath expr="//group" position="inside">
+                <group string="Control Automatizado de Inventario">
+                    <field name="min_stock_threshold"/>
+                    <field name="is_low_stock" widget="boolean_toggle"/>
+                </group>
+            </xpath>
+
+            <xpath expr="//field[@name='medicine_ids']" position="replace">
+                <field name="medicine_ids">
+                    <list editable="bottom">
+                        <field name="product_id" string="Medicine" options="{'no_quick_create': False}"/>
+                        <field name="manual_qty" string="Available Qty"/>
+                        <field name="list_price" string="Price"/>
+                    </list>
+                </field>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="hospital_pharmacy_view_tree_inherit_cron" model="ir.ui.view">
+        <field name="name">hospital.pharmacy.view.tree.inherit.cron</field>
+        <field name="model">hospital.pharmacy</field>
+        <field name="inherit_id" ref="base_hospital_management.hospital_pharmacy_view_tree"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//list" position="attributes">
+                <attribute name="decoration-danger">is_low_stock == True</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='email']" position="after">
+                <!-- Usamos el switch moderno aquí también, manteniéndolo como solo lectura -->
+                <field name="is_low_stock" widget="boolean_toggle" readonly="1"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

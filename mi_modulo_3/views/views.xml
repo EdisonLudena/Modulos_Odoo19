@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="action_fleet_vip_amenity" model="ir.actions.act_window">
+        <field name="name">Catálogo de Amenidades VIP   </field>
+        <field name="res_model">fleet.vip.amenity</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem 
+        id="menu_fleet_vip_amenity" 
+        name="Amenidades VIP" 
+        parent="fleet.fleet_vehicle_menu" 
+        sequence="30" 
+        action="action_fleet_vip_amenity"/>
+
+    <record id="fleet_vehicle_model_view_form_inherit_premium" model="ir.ui.view">
+        <field name="name">fleet.vehicle.model.view.form.inherit.premium</field>
+        <field name="model">fleet.vehicle.model</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_model_view_form"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//sheet" position="before">
+                <header>
+                    
+                    <button name="action_submit_review" string="Solicitar Revisión" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_approve" string="Aprobar Configuración" type="object" class="oe_highlight" invisible="state != 'review'"/>
+                    <button name="action_reset_draft" string="Volver a Borrador" type="object" invisible="state == 'draft'"/>
+                    
+                    
+                    <field name="state" widget="statusbar" statusbar_visible="draft,review,approved"/>
+                </header>
+            </xpath>
+
+            <xpath expr="//sheet" position="inside">
+                <group string="Configuración de Servicios Premium">
+                    <group>
+                        <field name="needs_special_cleaning" widget="boolean_toggle" readonly="state == 'approved'"/>
+                        <field name="has_vip_package" widget="boolean_toggle" readonly="state == 'approved'"/>
+                    </group>
+                    <group>
+                        <field name="total_premium_cost" widget="monetary" decoration-bf="1" decoration-info="1"/>
+                    </group>
+                </group>
+
+                <notebook>
+                    <page string="Detalles de Limpieza" name="page_cleaning" invisible="not needs_special_cleaning">
+                        <group>
+                            <field name="cleaning_provider" readonly="state != 'draft'"/>
+                            <field name="cleaning_cost" readonly="state != 'draft'"/>
+                        </group>
+                    </page>
+
+                    <page string="Configuración VIP" name="page_vip" invisible="not has_vip_package">
+                        <group>
+                            <field name="vip_amenity_ids" widget="many2many_tags" readonly="state != 'draft'"/>
+                        </group>
+                    </page>
+                </notebook>
+            </xpath>
+        </field>
+    </record>
+</odoo>
